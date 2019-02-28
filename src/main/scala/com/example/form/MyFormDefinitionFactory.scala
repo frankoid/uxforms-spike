@@ -8,7 +8,10 @@ import com.uxforms.domain.constraint.Required.required
 import com.uxforms.domain.{FormDefinition, FormDefinitionFactory, ResourceBundleMessages}
 import com.uxforms.dsl.containers.mustache.Section.section
 import com.uxforms.dsl.helpers.FormDefinitionHelper._
+import com.uxforms.dsl.helpers.VisibilityDSL.showWhenWidget
 import com.uxforms.dsl.widgets.Input.inputText
+import com.uxforms.dsl.widgets.WidgetGroup.group
+import com.uxforms.dsl.widgets.{RadioGroup, asRow}
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
@@ -58,6 +61,21 @@ object MyFormDefinitionFactory extends FormDefinitionFactory with TemplateLoader
 
         inputText("selfFullName", "yourPersonalDetailsSectionMessages", required),
         inputText("selfSocialSecurityNumber", "yourPersonalDetailsSectionMessages", Set(required, socialSecurityNumber))
+      ),
+
+      section(
+        "wereYouEmployedMessages",
+
+        RadioGroup.radioGroup("wereYouEmployed", "wereYouEmployedMessages", required, "yesNo", asRow)
+      ),
+
+      section(
+        "employmentDetailsMessages",
+
+        group(
+          showWhenWidget("wereYouEmployed").hasValue("yes"),
+          inputText("occupation", "employmentDetailsMessages", required)
+        )
       )
     )
 
