@@ -4,12 +4,14 @@ import java.util.Locale
 
 import com.example.form.build.MyFormDefinitionBuildInfo
 import com.example.form.constraint.SocialSecurityNumber.socialSecurityNumber
+import com.uxforms.domain.constraint.RepeatMinTimes.repeatMinTimes
 import com.uxforms.domain.constraint.Required.required
 import com.uxforms.domain.{FormDefinition, FormDefinitionFactory, ResourceBundleMessages}
 import com.uxforms.dsl.containers.mustache.Section.section
 import com.uxforms.dsl.helpers.FormDefinitionHelper._
 import com.uxforms.dsl.helpers.VisibilityDSL.showWhenWidget
 import com.uxforms.dsl.widgets.Input.inputText
+import com.uxforms.dsl.widgets.RepeatingWidget.repeatingWidget
 import com.uxforms.dsl.widgets.WidgetGroup.group
 import com.uxforms.dsl.widgets.{RadioGroup, asRow}
 
@@ -60,7 +62,7 @@ object MyFormDefinitionFactory extends FormDefinitionFactory with TemplateLoader
         "yourPersonalDetailsSectionMessages",
 
         inputText("selfFullName", "yourPersonalDetailsSectionMessages", required),
-        inputText("selfSocialSecurityNumber", "yourPersonalDetailsSectionMessages", Set(required, socialSecurityNumber))
+        inputText("selfSocialSecurityNumber", "yourPersonalDetailsSectionMessages", required ++ socialSecurityNumber)
       ),
 
       section(
@@ -74,7 +76,10 @@ object MyFormDefinitionFactory extends FormDefinitionFactory with TemplateLoader
 
         group(
           showWhenWidget("wereYouEmployed").hasValue("yes"),
-          inputText("occupation", "employmentDetailsMessages", required)
+          inputText("occupation", "employmentDetailsMessages", required),
+          repeatingWidget("wages", "employmentDetailsMessages", repeatMinTimes(0), group(
+            inputText("repeatingInput", "employmentDetailsMessages", required)
+          ), "wages", "repeating.mustache")
         )
       )
     )
