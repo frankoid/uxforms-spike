@@ -3,6 +3,7 @@ package com.example.form
 import java.util.Locale
 
 import com.example.form.build.MyFormDefinitionBuildInfo
+import com.example.form.constraint.SocialSecurityNumber.socialSecurityNumber
 import com.uxforms.domain.constraint.Required.required
 import com.uxforms.domain.{FormDefinition, FormDefinitionFactory, ResourceBundleMessages}
 import com.uxforms.dsl.containers.mustache.Section.section
@@ -25,7 +26,7 @@ object MyFormDefinitionFactory extends FormDefinitionFactory with TemplateLoader
     * Makes my classLoader available implicitly so that message bundles can be referenced
     * easily.
     */
-  implicit val localClassLoader = getClass.getClassLoader
+  implicit val localClassLoader: ClassLoader = getClass.getClassLoader
 
 
   /**
@@ -37,7 +38,7 @@ object MyFormDefinitionFactory extends FormDefinitionFactory with TemplateLoader
       * Resolves the locale requested by the user from a combination of their HTTP headers,
       * explicitly requested locale (i.e. in the URL), and those supported by this form definition.
       */
-    implicit val locale = resolveRequestedLocale(requestedLocale)
+    implicit val locale: Locale = resolveRequestedLocale(requestedLocale)
 
     implicit val formLevelMessages: ResourceBundleMessages = "formMessages"
 
@@ -53,9 +54,10 @@ object MyFormDefinitionFactory extends FormDefinitionFactory with TemplateLoader
       completedSection("completedMessages"),
 
       section(
-        "firstSectionMessages",
+        "yourPersonalDetailsSectionMessages",
 
-        inputText("elementName", "elementName.label" -> "This is the question text that will appear in the form", required)
+        inputText("selfFullName", "yourPersonalDetailsSectionMessages", required),
+        inputText("selfSocialSecurityNumber", "yourPersonalDetailsSectionMessages", Set(required, socialSecurityNumber))
       )
     )
 
