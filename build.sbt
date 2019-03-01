@@ -14,6 +14,9 @@ buildInfoKeys := Seq[BuildInfoKey](
   retentionPeriod
 )
 
+// Maybe move this out and use sbt-release to manage version numbers instead?
+version := "0.0.1-SNAPSHOT"  
+
 buildInfoObject := "MyFormDefinitionBuildInfo"
 
 organization := "com.example" // TODO: Change this to be your organisation
