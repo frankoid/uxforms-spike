@@ -4,6 +4,7 @@ import java.util.Locale
 
 import com.example.form.build.MyFormDefinitionBuildInfo
 import com.example.form.constraint.SocialSecurityNumber.socialSecurityNumber
+import com.example.form.widgets.Number.inputNumber
 import com.uxforms.domain.constraint.RepeatMinTimes.repeatMinTimes
 import com.uxforms.domain.constraint.Required.required
 import com.uxforms.domain.{FormDefinition, FormDefinitionFactory, ResourceBundleMessages}
@@ -78,8 +79,9 @@ object MyFormDefinitionFactory extends FormDefinitionFactory with TemplateLoader
           showWhenWidget("wereYouEmployed").hasValue("yes"),
           inputText("occupation", "employmentDetailsMessages", required),
           repeatingWidget("wages", "employmentDetailsMessages", repeatMinTimes(0), group(
-            inputText("repeatingInput", "employmentDetailsMessages", required)
-          ), "wages", "repeating.mustache")
+            inputText("employerName", "employmentDetailsMessages", required),
+            inputNumber("income", "employmentDetailsMessages", required, step = BigDecimal("0.01"))
+          ), "wages", "repeatingEmployment.mustache")
         )
       )
     )

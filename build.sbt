@@ -20,7 +20,7 @@ organization := "com.example" // TODO: Change this to be your organisation
 
 name := "uxforms-spike-francis" // TODO: Change this to be the path on which your form will be deployed
 
-themeName := "govuk" // TODO: Change this to the name of the theme to use in your form
+themeName := "govuk-francis" // TODO: Change this to the name of the theme to use in your form
 
 retentionPeriod := 30.minutes // TODO: Change this to the length of time form data should be stored. I.e. the duration of the user's session.
 
