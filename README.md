@@ -31,7 +31,7 @@ As a result this won't catch any OSGi packaging snafus (which you may encounter 
 
 ### Setup
 
-Run `.setupDockerComposeEnv.sh` to create a `.env` file in the current directory.
+Run `./setupDockerComposeEnv.sh` to create a `.env` file in the current directory.
 
 The following are hard-coded in the script (and can be either corrected in the script or in the resultant `.env` file)
 
@@ -42,7 +42,8 @@ The following are hard-coded in the script (and can be either corrected in the s
 
 ### Running
 
-`docker-compose up`
+    sbt package
+    docker-compose up
 
 Form available on http://localhost:9000/{formName}, i.e. http://localhost:9000/uxforms-spike-francis
 
